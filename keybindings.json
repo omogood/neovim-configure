@@ -1,0 +1,16 @@
+// 既定値を上書きするには、このファイル内にキー バインドを挿入します
+[
+    { "key": "cmd+`",                "command": "workbench.action.terminal.toggleTerminal" },
+    {
+        "key": "cmd+shift+`",
+        "command": "workbench.action.terminal.new"
+    },
+    {
+        "key": "alt+w",
+        "command": "workbench.action.switchWindow"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "-workbench.action.switchWindow"
+    },
+]

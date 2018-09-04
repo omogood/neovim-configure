@@ -1,0 +1,236 @@
+{
+    "vim.enableNeovim": true,
+    "vim.neovimPath": "/usr/local/bin/nvim",
+    "vim.hlsearch": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                ";"
+            ],
+            "after": [
+                ":"
+            ]
+        },
+        {
+            "before": [
+                ":"
+            ],
+            "after": [
+                ";"
+            ]
+        },
+        {
+            "before": [
+                ":"
+            ],
+            "commands": [
+                "workbench.action.showCommands",
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "m",
+                "m"
+            ],
+            "commands": [
+                "bookmarks.toggle"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "m",
+                "l"
+            ],
+            "commands": [
+                "bookmarks.list"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "m",
+                "n"
+            ],
+            "commands": [
+                "bookmarks.jumpToNext"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "m",
+                "p"
+            ],
+            "commands": [
+                "bookmarks.jumpToPrevious"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "j"
+            ],
+            "after": [
+                "g",
+                "t"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "k"
+            ],
+            "after": [
+                "g",
+                "T"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w"
+            ],
+            "commands": [
+                "workbench.action.files.save",
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "<leader>"
+            ],
+            "after": [
+                "v",
+                "i",
+                "w"
+            ]
+        },
+        {
+            "before": [
+                "<C-y>"
+            ],
+            "after": [
+                "v",
+                "i",
+                "w",
+                "y"
+            ]
+        },
+        {
+            "before": [
+                "<C-p>"
+            ],
+            "after": [
+                "v",
+                "i",
+                "w",
+                "p"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "<Enter>"
+            ],
+            "after": [
+                "%"
+            ]
+        },
+        // 画面の分割 :sv 相当
+        {
+            "before": [
+                "<leader>",
+                "s"
+            ],
+            "commands": [
+                "workbench.action.splitEditor",
+            ]
+        },
+        // 画面の分割 :vs 相当
+        {
+            "before": [
+                "<leader>",
+                "v"
+            ],
+            "commands": [
+                "workbench.action.splitEditorOrthogonal",
+            ]
+        },
+        // ハイライトを非表示にする
+        {
+            "before": [
+                "<C-n>"
+            ],
+            "commands": [
+                ":noh"
+            ]
+        },
+        // 定義を表示
+        {
+            "before": [
+                "K"
+            ],
+            "commands": [
+                "editor.action.previewDeclaration"
+            ],
+            "when": [
+                "editorHasDefinitionProvider && editorTextFocus && !inReferenceSearchEditor && !isInEmbeddedEditor"
+            ]
+        },
+        // 画面のスクロール
+        {
+            "before": [
+                "<C-j>"
+            ],
+            "commands": [
+                "scrollLineDown"
+            ],
+            "when": [
+                "textInputFocus"
+            ]
+        },
+        {
+            "before": [
+                "<C-k>"
+            ],
+            "commands": [
+                "scrollLineUp"
+            ],
+            "when": [
+                "textInputFocus"
+            ]
+        },
+    ],
+    "vim.statusBarColorControl": true,
+    "vim.useSystemClipboard": true,
+    "vim.insertModeKeyBindings": [],
+    "vim.insertModeKeyBindingsNonRecursive": [],
+    "workbench.iconTheme": "material-icon-theme",
+    "material-icon-theme.folders.theme": "specific",
+    "material-icon-theme.folders.color": "#ff7043",
+    "terminal.integrated.fontSize": 15,
+    "editor.fontSize": 14,
+    "workbench.colorTheme": "Dracula",
+    "editor.minimap.enabled": false,
+    "editor.renderWhitespace": "boundary",
+    "vim.easymotion": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    // "editor.fontFamily": "Monoisome-Regular",
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#005f5f",
+        "statusBar.noFolderBackground": "#005f5f",
+        "statusBar.debuggingBackground": "#005f5f"
+    },
+    "languageServerHaskell.hieExecutablePath": "~/.local/bin/hie",
+    "python.jediEnabled": false,
+    "[elm]": {
+        "editor.formatOnSave": true
+    },
+    "workbench.editor.enablePreview": false,
+    "bookmarks.saveBookmarksInProject": true,
+    "bookmarks.navigateThroughAllFiles": true,
+}

@@ -32,8 +32,8 @@ set t_Co=256
 nnoremap <silent><ESC><ESC> :noh<CR>
 " terminal emulator でノーマルモードに移行するキーマップ
 tnoremap <silent> <ESC> <C-\><C-n>
-"set sh=zsh                  "terminal emulator を zsh に設定
-set sh=fish                  "terminal emulator を fish に設定
+set sh=zsh                  "terminal emulator を zsh に設定
+"set sh=fish                  "terminal emulator を fish に設定
 " terminal 起動コマンド
 function! TerminalOpen()
     sv|terminal
@@ -83,6 +83,19 @@ nnoremap <silent><leader>w :w<CR>
 nnoremap <silent><leader>q :q<CR>
 "カーソル下の単語を選択
 nnoremap <silent><leader>d viw
+nnoremap <silent><leader>' vi'
+nnoremap <silent><leader>" vi"
+nnoremap <silent><leader>( vi(
+nnoremap <silent><leader>) vi)
+nnoremap <silent><leader>[ vi]
+nnoremap <silent><leader>] vi]
+nnoremap <silent><leader>< vi<
+nnoremap <silent><leader>> vi>
+
+nnoremap ; :
+nnoremap : ;
+
+nnoremap <C-n> *
 
 "quickfix: 編集許可と折り返し表示無効
 function! OpenModifiableQF()
@@ -110,7 +123,8 @@ Plug 'github/copilot.vim'
 
 "fzf
 Plug '/opt/homebrew/opt/fzf'
-Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/remote', 'do': ':UpdateRemotePlugins' }
 
 "vim-gitgutter
 Plug 'airblade/vim-gitgutter'
@@ -174,18 +188,8 @@ call plug#end()
 " ****************************************
 "           カラースキーム
 " ****************************************
-"colorscheme NeoSolarized
-"colorscheme iceberg
-"colorscheme nord
-"colorscheme gruvbox
-"colorscheme elly
-"colorscheme onedark
-"colorscheme rigel
-"colorscheme gruvbox-material
+colorscheme nightfox
 "let g:gruvbox_material_background = 'medium'
-"colorscheme solarized
-"colorscheme nightfox
-colorscheme everforest
 set background=dark
 
 " ****************************************
@@ -197,32 +201,45 @@ let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
 " vim-airline のテーマを設定
-"let g:airline_theme='solarized'
-"let g:airline_theme='iceberg'
-"let g:airline_theme='nord'
-"let g:airline_theme='gruvbox'
-"let g:airline_theme='elly'
-"let g:airline_theme='onedark'
-"let g:airline_theme='rigel'
-"let g:airline_theme='gruvbox_material'
-let g:airline_theme='everforest'
+"let g:airline_theme='nightfox'
 
 " ****************************************
 "             fzf の設定
 " ****************************************
 " 新規ウィンドウ
-let g:fzf_layout = { 'window': 'enew' }
+"let g:fzf_layout = { 'window': 'enew' }
 " 新規タブ
-let g:fzf_layout = { 'window': '-tabnew' }
+"let g:fzf_layout = { 'window': '-tabnew' }
 " Files 実行コマンド
-nnoremap <C-p> :Files<CR>
-nnoremap <silent><leader>b :Buffers<CR>
-nnoremap <silent><leader>h :History<CR>
-nnoremap <silent><leader>t :Tags<CR>
+"nnoremap <C-p> :Files<CR>
+"nnoremap <silent><leader>b :Buffers<CR>
+"nnoremap <silent><leader>h :History<CR>
+"nnoremap <silent><leader>t :Tags<CR>
 " Filesコマンドにもプレビューを出す
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+"command! -bang -nargs=? -complete=dir Files
+"  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
+
+let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
+
+nnoremap <silent> [fzf-p];     :<c-u>CocCommand fzf-preview.ProjectFiles<CR>
+nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
 
 " ****************************************
 "             ripgrep(Rg) の設定
@@ -236,7 +253,6 @@ command! -bang -nargs=* Rg
   \   <bang>0)
 
 nnoremap <leader>g :Rg<Space>
-
 
 " ****************************************
 "             gitgutter の設定
@@ -331,10 +347,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
 
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
@@ -343,76 +355,6 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <leader>cqf  <Plug>(coc-fix-current)
-
-" Run the Code Lens action on the current line.
-nmap <leader>cl  <Plug>(coc-codelens-action)
-
-" Map function and class text objects
-" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-
-" Remap <C-f> and <C-b> for scroll float windows/popups.
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
-
-" Use CTRL-S for selections ranges.
-" Requires 'textDocument/selectionRange' support of language server.
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
-
-" Add `:Format` command to format current buffer.
-command! -nargs=0 Format :call CocAction('format')
-
-" Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
-
-" Add (Neo)Vim's native statusline support.
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Mappings for CoCList
-" Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " ****************************************
 "           nvim-treesitter の設定
@@ -423,7 +365,7 @@ nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "maintained",
+  ensure_installed = "all",
 
   -- Install languages synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -436,7 +378,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
 
     -- list of language that will be disabled
-    disable = { "c", "rust" },
+    -- disable = { "c", "rust" },
 
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -526,6 +468,14 @@ set t_8b=^[[48;2;%lu;%lu;%lum
 "             cTags の設定
 " ****************************************
 set tags=~./tags,./../tags,./*/tags
+
+
+" ****************************************
+" EasyMotion
+" ****************************************
+let g:EasyMotion_smartcase = 1
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 
 " ****************************************
 "             その他の設定

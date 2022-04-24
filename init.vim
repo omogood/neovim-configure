@@ -204,23 +204,12 @@ let g:airline_powerline_fonts = 1
 "let g:airline_theme='nightfox'
 
 " ****************************************
-"             fzf の設定
+"           fzf-preview の設定
 " ****************************************
-" 新規ウィンドウ
-let g:fzf_layout = { 'window': 'enew' }
-" 新規タブ
-let g:fzf_layout = { 'window': '-tabnew' }
-" Files 実行コマンド
-"nnoremap <C-p> :Files<CR>
-"nnoremap <silent><leader>b :Buffers<CR>
-"nnoremap <silent><leader>h :History<CR>
-"nnoremap <silent><leader>t :Tags<CR>
-" Filesコマンドにもプレビューを出す
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 
 let g:fzf_preview_filelist_command = 'rg --files --hidden --follow --no-messages -g \!"* *"' " Installed ripgrep
+let g:fzf_preview_command = 'bat --color=always --plain {-1}' " Installed bat
+
 nmap <Leader>f [fzf-p]
 xmap <Leader>f [fzf-p]
 

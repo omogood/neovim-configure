@@ -1,6 +1,9 @@
 {
-  "go.goplsOptions": {
-    "completeUnimported": true
-  }
+    "languageserver": {
+        "csharp-ls": {
+          "command": "csharp-ls",
+          "filetypes": ["cs"],
+          "rootPatterns": ["*.csproj", ".git/"]
+        }
+    }
 }
-
